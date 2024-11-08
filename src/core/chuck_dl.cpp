@@ -113,6 +113,7 @@ const char * CK_DLL_CALL ck_type_base_name( Chuck_Type * type );
 Chuck_VM_Shred * CK_DLL_CALL ck_get_origin_shred( Chuck_Object * object );
 void CK_DLL_CALL ck_set_origin_shred( Chuck_Object * object, Chuck_VM_Shred * shred );
 Chuck_VM_Shred * CK_DLL_CALL ck_shred_parent( Chuck_VM_Shred * shred );
+const char * CK_DLL_CALL ck_get_install_path( Chuck_DL_Query * query );
 
 
 
@@ -2678,7 +2679,8 @@ queue_event(ck_queue_event),
 invoke_mfun_immediate_mode(ck_invoke_mfun_immediate_mode),
 throw_exception(ck_throw_exception),
 em_log(ck_em_log),
-remove_all_shreds(ck_remove_all_shreds)
+remove_all_shreds(ck_remove_all_shreds),
+get_install_path(ck_get_install_path)
 { }
 
 
@@ -2769,9 +2771,9 @@ base_name(ck_type_base_name)
 //-----------------------------------------------------------------------------
 // constructor for the ShredApi; connects function pointers to host-side impl
 //-----------------------------------------------------------------------------
-Chuck_DL_Api::ShredApi::ShredApi() :
-parent(ck_shred_parent)
+Chuck_DL_Api::ShredApi::ShredApi() : parent(ck_shred_parent)
 { }
+
 
 
 
@@ -3003,6 +3005,21 @@ Chuck_VM_Shred * CK_DLL_CALL ck_shred_parent( Chuck_VM_Shred * shred )
     if( !shred ) return NULL;
     // return origin hint
     return shred->parent;
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// name: ck_get_install_path()
+// desc: get absolute path of the chugin that called this function
+//-----------------------------------------------------------------------------
+const char * CK_DLL_CALL ck_get_install_path( Chuck_DL_Query * query )
+{
+    // check
+    if( !query->dll_ref ) return "";
+    // return filepath
+    return query->dll_ref->filepath();
 }
 
 

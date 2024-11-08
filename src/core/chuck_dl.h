@@ -64,7 +64,7 @@
 #define CK_DLL_VERSION_MAJOR (10)
 // minor API version: revisions
 // minor API version of chuck must >= API version of chugin
-#define CK_DLL_VERSION_MINOR (2)
+#define CK_DLL_VERSION_MINOR (3)
 #define CK_DLL_VERSION_MAKE(maj,min) ((t_CKUINT)(((maj) << 16) | (min)))
 #define CK_DLL_VERSION_GETMAJOR(v) (((v) >> 16) & 0xFFFF)
 #define CK_DLL_VERSION_GETMINOR(v) ((v) & 0xFFFF)
@@ -979,6 +979,22 @@ public:
         void (CK_DLL_CALL * const em_log)( t_CKINT level, const char * text );
         // system function: remove all shreds in VM; use with care
         void (CK_DLL_CALL * const remove_all_shreds)( Chuck_VM * vm );
+
+        // get absolute path of this chugin (NOTE do not save a reference to the return value; make a copy if needed)
+        const char * (CK_DLL_CALL * const get_install_path)( Chuck_DL_Query * QUERY );
+
+//        // compile and run from a chuck file
+//        t_CKBOOL (CK_DLL_CALL * const run_file)( const char * filepath, Chuck_VM * vm );
+//        // compile and run from code literal
+//        t_CKBOOL (CK_DLL_CALL * const run_code)( const char * filepath, Chuck_VM * vm );
+//        // import a file
+//        t_CKBOOL (CK_DLL_CALL * const import_file)( const char * filepath, Chuck_VM * vm );
+//        // import a code
+//        t_CKBOOL (CK_DLL_CALL * const import_code)( const char * filepath, Chuck_VM * vm );
+//        // validate (e.g., parse-check) a ck source file
+//        t_CKBOOL (CK_DLL_CALL * const validate_file)( const char * filepath, Chuck_VM * vm );
+//        // validate (e.g., parse-check) a string contain chuck code
+//        t_CKBOOL (CK_DLL_CALL * const validate_code)( const char * codeLiteral, Chuck_VM * vm );
     } * const vm;
 
     // api to access host-side ChucK objects
