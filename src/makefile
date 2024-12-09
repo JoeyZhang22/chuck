@@ -107,6 +107,13 @@ CFLAGS+=-I. -I$(CK_CORE_DIR) -I$(CK_CORE_DIR)/lo
 
 # Code coverage
 
+# enable AddressSanitizer?
+ifneq ($(ASAN),)
+CFLAGS += -fsanitize=address -g
+CXXFLAGS += -fsanitize=address -g
+LDFLAGS += -fsanitize=address
+endif
+
 # enable chuck debug macros?
 ifneq ($(COVERAGE_REPORT),)
 CFLAGS+=-fprofile-arcs

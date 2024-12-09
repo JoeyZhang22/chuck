@@ -1714,9 +1714,11 @@ CK_DLL_MFUN( object_toString )
         ostringstream strout( ostringstream::out );
         // get the type
         Chuck_Type * type = SELF->type_ref;
-        // write
         strout.setf( ios::hex, ios::basefield );
-        strout << ((type != NULL) ? type->c_name() : "[VOID]") << ":" << (t_CKUINT)SELF << " (refcount=" << SELF->m_ref_count << ")";
+        // Instead of returning metadata, return the actual string content of the object
+        // For example, we assume the actual string content is in the object's 'data' field
+        const std::string& objectString = ((Chuck_String *)SELF)->str(); //cast SELF from parent Object class to Chuck_String class and access str
+        strout << objectString;  // Write the actual string content
         strout.flush();
 
         // done
